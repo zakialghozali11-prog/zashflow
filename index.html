@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light" data-user="zaki" data-default-user="zaki">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-vmgeRSWU0V+b9LywVaySMGihw0w4eV/tn608+GB1Ubs='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob: https://api.gold-api.com https://api.coingecko.com https://open.er-api.com https://api.binance.com https://data-api.binance.vision https://scanner.tradingview.com https://query1.finance.yahoo.com https://query2.finance.yahoo.com; worker-src 'self'; manifest-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="no-referrer">
+  <title>ZashFlow</title>
+  <meta name="description" content="ZashFlow — kelola arus kas pribadi, tabungan emas 24K, jadwal harian, dan pantau harga pasar real-time.">
+  <meta name="theme-color" content="#ffffff" id="metaTheme">
+  <meta name="application-name" content="ZashFlow">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ZashFlow">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+
+  <link id="appFavicon" rel="icon" type="image/svg+xml" href="icon.svg?v=6">
+  <link id="appShortcutIcon" rel="shortcut icon" type="image/png" href="icon-blue-any.png?v=6">
+  <link id="appAppleIcon" rel="apple-touch-icon" sizes="180x180" href="icon-blue.png?v=6">
+  <link id="appManifest" rel="manifest" href="manifest.json?v=6">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="styles.css">
+
+  <script>
+    /* Pra-render: tema, user, ikon tab & deteksi perangkat agar tidak berkedip */
+    (function () {
+      var d = document.documentElement;
+      try {
+        var t = JSON.parse(localStorage.getItem('zashflow:theme') || '"light"');
+        var isDark = t === 'dark';
+        d.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        var defU = d.getAttribute('data-default-user') === 'niza' ? 'niza' : 'zaki';
+        var qp = new URLSearchParams(location.search).get('install');
+        var rawU = localStorage.getItem('zashflow:activeUser');
+        var u = qp === 'niza' || qp === 'zaki' ? qp : (rawU ? JSON.parse(rawU) : defU);
+        if (qp === 'niza' || qp === 'zaki') localStorage.setItem('zashflow:activeUser', JSON.stringify(u));
+        var isNiza = u === 'niza';
+        d.setAttribute('data-user', isNiza ? 'niza' : 'zaki');
+        var mt = document.getElementById('metaTheme');
+        if (mt) mt.setAttribute('content', isDark ? (isNiza ? '#180412' : '#020b1e') : (isNiza ? '#ffe3f0' : '#eaf4ff'));
+        if (isNiza) {
+          var f = document.getElementById('appFavicon'); if (f) f.href = 'icon-pink.svg?v=6';
+          var s = document.getElementById('appShortcutIcon'); if (s) s.href = 'icon-pink-any.png?v=6';
+          var a = document.getElementById('appAppleIcon'); if (a) a.href = 'icon-pink.png?v=6';
+          var m = document.getElementById('appManifest'); if (m) m.href = 'manifest-niza.json?v=6';
+        }
+        if (JSON.parse(localStorage.getItem('zashflow:sbCollapsed') || 'false')) d.classList.add('sb-pre-collapsed');
+        var g = JSON.parse(localStorage.getItem('zashflow:glass') || '"liquid"');
+        d.setAttribute('data-glass', g === 'soft' || g === 'ultra' ? g : 'liquid');
+        if (JSON.parse(localStorage.getItem('zashflow:motion') || 'true') === false) d.classList.add('low-motion');
+      } catch (e) {}
+      var ua = navigator.userAgent || '';
+      var mUA = /Android|iPhone|iPad|iPod|Mobile|Silk|Kindle|BlackBerry|Opera Mini|IEMobile/i.test(ua) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches && navigator.maxTouchPoints > 0;
+      var w = window.innerWidth;
+      d.classList.add(mUA || w < 1024 || (coarse && w < 1280) ? 'is-mobile' : 'is-desktop');
+      d.classList.add('js');
+    })();
+  </script>
+</head>
+<body class="pre">
+
+  <!-- ===================== SVG SPRITE ===================== -->
+  <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="g-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4ade9f"/><stop offset="1" stop-color="#059669"/></linearGradient>
+      <linearGradient id="g-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fb7185"/><stop offset="1" stop-color="#e11d48"/></linearGradient>
+      <linearGradient id="g-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--bar-main-a)"/><stop offset="1" style="stop-color:var(--bar-main-b)"/></linearGradient>
+      <linearGradient id="g-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#d4960f"/></linearGradient>
+      <linearGradient id="lg-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fde58a"/><stop offset=".55" stop-color="#e2a92a"/><stop offset="1" stop-color="#b07a10"/></linearGradient>
+    </defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V5.5A2.5 2.5 0 0 0 16.5 3H5.5a2.5 2.5 0 0 0 0 5H19a2 2 0 0 1 2 2v3"/><path d="M3 5.5V18a3 3 0 0 0 3 3h13a2 2 0 0 0 2-2v-3"/><path d="M21 12h-4a2 2 0 0 0 0 4h4z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="17" rx="3"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-7"/></symbol>
+    <symbol id="i-news" viewBox="0 0 24 24"><path d="M4 5h13v14a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v10a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></symbol>
+    <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-chev-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-in" viewBox="0 0 24 24"><path d="M17 7 7 17"/><path d="M17 17H7V7"/></symbol>
+    <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></symbol>
+    <symbol id="i-gold" viewBox="0 0 24 24"><path d="M2.5 20h8.5l-1.6-5H4.1z"/><path d="M13 20h8.5l-1.6-5h-5.3z"/><path d="M7.75 13h8.5l-1.6-5H9.35z"/></symbol>
+    <symbol id="i-sync" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4v16"/><path d="m3 8 4-4 4 4"/><path d="M17 20V4"/><path d="m21 16-4 4-4-4"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5"/><path d="m16 7 5 5-5 5"/><path d="m13.5 4-3 16"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M8 7h8M8 11h5"/></symbol>
+    <symbol id="i-book-open" viewBox="0 0 24 24"><path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14a6 6 0 0 1 3.5 6"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+    <symbol id="i-coins" viewBox="0 0 24 24"><circle cx="9" cy="9" r="6"/><path d="M15.4 9.6a6 6 0 1 1-5.8 5.8"/><path d="M9 6.5v5M7 8h3.2a1 1 0 0 1 0 2H7.8"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></symbol>
+    <symbol id="i-cmd" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M2 14h4M10 8h4M18 16h4"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+    <symbol id="i-volume-x" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="m22 9-6 6M16 9l6 6"/></symbol>
+  </svg>
+
+  <!-- ===================== SPLASH ===================== -->
+  <div id="splash" class="splash" role="status" aria-label="Memuat ZashFlow">
+    <div class="splash-orb orb-a"></div>
+    <div class="splash-orb orb-b"></div>
+    <div class="splash-card">
+      <span class="splash-sweep" aria-hidden="true"></span>
+      <div class="splash-emblem"><img src="icon.svg?v=6" data-brand-logo alt="" width="88" height="88"></div>
+      <h1 class="splash-title">Zash<span>Flow</span></h1>
+      <p class="splash-tag">Keuangan · Emas 24K · Jadwal · Market</p>
+      <div class="splash-progress"><span></span></div>
+    </div>
+    <p class="splash-skip">Ketuk untuk melewati</p>
+  </div>
+
+  <!-- Liquid Silk & Caustic Refraction Background -->
+  <div class="bg-scene" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+    <svg class="bg-waves" viewBox="0 0 1440 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="silk1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="var(--silk-a)" stop-opacity=".75"/>
+          <stop offset=".5" stop-color="var(--silk-b)" stop-opacity=".35"/>
+          <stop offset="1" stop-color="var(--silk-c)" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="silk2" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--silk-c)" stop-opacity=".7"/>
+          <stop offset=".5" stop-color="var(--silk-a)" stop-opacity=".3"/>
+          <stop offset="1" stop-color="var(--silk-b)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path class="silk s1" fill="url(#silk1)" d="M-80 280C220 90 480 430 820 260s500-220 720-60v260c-240-120-450 110-780 40S180 490-80 620z"/>
+      <path class="silk s2" fill="url(#silk2)" d="M-100 660C240 480 560 790 920 600s400-180 620-30v360H-100z"/>
+    </svg>
+  </div>
+
+  <div class="app" id="app">
+
+    <!-- ===================== SIDEBAR (DESKTOP) ===================== -->
+    <aside class="sidebar" id="sidebar" aria-label="Navigasi utama">
+      <span class="sb-runner" aria-hidden="true"><span class="sb-runner-beam"></span></span>
+      <div class="sb-head">
+        <a class="sb-brand" href="#dashboard" data-go="dashboard" aria-label="ZashFlow Dashboard">
+          <img class="sb-logo" src="icon.svg?v=6" data-brand-logo alt="ZashFlow" width="44" height="44">
+          <span class="sb-brand-text"><strong>ZashFlow</strong><small>Personal Finance</small></span>
+        </a>
+        <button class="sb-toggle ripple" id="sbToggle" type="button" aria-label="Perkecil sidebar" title="Perkecil / perbesar sidebar">
+          <svg class="ico"><use href="#i-chev-left"/></svg>
+        </button>
+      </div>
+
+      <nav class="sb-nav" id="sbNav">
+        <span class="sb-pill" id="sbPill" aria-hidden="true"></span>
+
+        <div class="sb-group">
+          <button class="sb-item ripple" data-view="dashboard" title="Dashboard">
+            <span class="sb-ico"><svg class="ico"><use href="#i-home"/></svg></span>
+            <span class="sb-label">Dashboard</span>
+          </button>
+        </div>
+
+        <div class="sb-group has-sub">
+          <button class="sb-item ripple" data-view="finance" title="Keuangan & Emas">
+            <span class="sb-ico"><svg class="ico"><use href="#i-wallet"/></svg></span>
+            <span class="sb-label">Keuangan &amp; Emas</span>
+            <span class="sb-caret"><svg class="ico"><use href="#i-chev-down"/></svg></span>
+          </button>
+          <div class="sb-sub"><div class="sb-sub-inner">
+            <button data-go="finance" data-scroll="financeForm">Catat Arus Kas</button>
+            <button data-go="finance" data-scroll="goldPanel">Tabungan Emas</button>
+            <button data-go="finance" data-scroll="txHistory">Riwayat Transaksi</button>
+            <button data-go="finance" data-scroll="finMarketPanel">Pantauan Pasar</button>
+          </div></div>
+        </div>
+
+        <div class="sb-group has-sub">
+          <button class="sb-item ripple" data-view="schedule" title="Jadwal Harian">
+            <span class="sb-ico"><svg class="ico"><use href="#i-calendar"/></svg></span>
+            <span class="sb-label">Jadwal Harian</span>
+            <span class="sb-caret"><svg class="ico"><use href="#i-chev-down"/></svg></span>
+          </button>
+          <div class="sb-sub"><div class="sb-sub-inner">
+            <button data-go="schedule" data-day="today">Jadwal Hari Ini</button>
+            <button data-go="schedule" data-day="week">Ringkasan 1 Minggu</button>
+            <button data-go="schedule" data-scroll="schedForm">Tambah Jadwal</button>
+          </div></div>
+        </div>
+
+        <div class="sb-group has-sub">
+          <button class="sb-item ripple" data-view="market" title="Market Watch">
+            <span class="sb-ico"><svg class="ico"><use href="#i-chart"/></svg></span>
+            <span class="sb-label">Market Watch</span>
+            <span class="sb-caret"><svg class="ico"><use href="#i-chev-down"/></svg></span>
+          </button>
+          <div class="sb-sub"><div class="sb-sub-inner">
+            <button data-go="market" data-asset="ANTAM">Emas Global &amp; Antam</button>
+            <button data-go="market" data-asset="BTCUSD">Trading &amp; Forex</button>
+            <button data-go="market" data-asset="IHSG">Saham</button>
+          </div></div>
+        </div>
+
+        <div class="sb-group">
+          <button class="sb-item ripple" data-view="news" title="Berita Pasar">
+            <span class="sb-ico"><svg class="ico"><use href="#i-news"/></svg></span>
+            <span class="sb-label">Berita Pasar</span>
+          </button>
+        </div>
+
+        <div class="sb-group">
+          <button class="sb-item ripple" data-view="settings" title="Pengaturan">
+            <span class="sb-ico"><svg class="ico"><use href="#i-settings"/></svg></span>
+            <span class="sb-label">Pengaturan</span>
+          </button>
+        </div>
+      </nav>
+
+      <div class="sb-antam" data-go="market" data-asset="ANTAM" role="button" tabindex="0" title="Emas Antam 24K">
+        <div class="sb-antam-top">
+          <span class="asset-logo sm" data-logo="ANTAM"></span>
+          <span>Emas Antam 24K</span>
+          <span class="live-dot"></span>
+        </div>
+        <strong data-bind="antamPrice">Rp 2.505.000</strong>
+        <div class="sb-antam-foot"><small>per gram</small><span class="chg" data-bind-chg="ANTAM">0,00%</span></div>
+      </div>
+
+      <button class="sb-sync ripple" id="syncBtn" type="button" title="Sync Profil">
+        <span class="sb-ico"><svg class="ico"><use href="#i-sync"/></svg></span>
+        <span class="sb-label" data-bind="syncLabel">Sync Profil Zaki</span>
+      </button>
+
+      <button class="sb-profile user-switch-trigger" id="sbProfileBtn" type="button" aria-haspopup="menu" aria-expanded="false" title="Ganti Pengguna (Zaki / Niza)">
+        <div class="avatar" aria-hidden="true"><span data-bind="avatarInitial">Z</span></div>
+        <div class="sb-profile-text"><strong data-bind="userName">Zaki</strong><small data-bind="total">Rp 0</small></div>
+        <span class="sb-profile-chev" aria-hidden="true"><svg class="ico"><use href="#i-swap"/></svg></span>
+      </button>
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+    <div class="main" id="main">
+
+      <!-- Desktop header -->
+      <header class="topbar" id="topbar">
+        <div class="tb-title">
+          <h2 id="viewTitle">Dashboard</h2>
+          <p id="viewSub">Ringkasan kekayaan, jadwal &amp; pasar hari ini</p>
+        </div>
+        <button class="tb-search search-btn ripple" type="button" aria-label="Cari">
+          <svg class="ico"><use href="#i-search"/></svg>
+          <span>Cari aset, jadwal, berita</span>
+        </button>
+        <div class="tb-actions">
+          <span class="live-chip" data-live-chip><span class="live-dot"></span><span data-bind="liveText">Live ON</span><em data-bind="countdown">60s</em></span>
+          <button class="btn btn-icon btn-glass refresh-btn ripple" type="button" title="Refresh Market" aria-label="Refresh Market"><svg class="ico"><use href="#i-refresh"/></svg></button>
+          <button class="btn btn-icon btn-glass theme-btn ripple" type="button" title="Ganti Tema" aria-label="Ganti Tema"><svg class="ico"><use href="#i-moon"/></svg></button>
+          <button class="btn btn-icon btn-glass ripple" type="button" data-go="settings" title="Pengaturan" aria-label="Pengaturan"><svg class="ico"><use href="#i-settings"/></svg></button>
+          <button class="btn btn-glass install-btn ripple" type="button" title="Pasang Aplikasi"><svg class="ico"><use href="#i-download"/></svg><span>Pasang App</span></button>
+        </div>
+      </header>
+
+      <!-- Mobile top bar -->
+      <header class="mtop" id="mtop">
+        <button class="mtop-left user-switch-trigger" id="mobProfileBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Ganti Pengguna">
+          <div class="avatar sm" aria-hidden="true"><span data-bind="avatarInitial">Z</span></div>
+          <div class="mtop-greet">
+            <strong data-bind="greeting">Halo, Zaki</strong>
+            <span class="live-pill" data-live-chip><span class="live-dot"></span><span data-bind="liveText">Live ON</span></span>
+          </div>
+        </button>
+        <div class="mtop-actions">
+          <button class="mbtn search-btn ripple" type="button" aria-label="Cari"><svg class="ico"><use href="#i-search"/></svg></button>
+          <button class="mbtn refresh-btn ripple" type="button" aria-label="Refresh Market"><svg class="ico"><use href="#i-refresh"/></svg></button>
+          <button class="mbtn theme-btn ripple" type="button" aria-label="Ganti Tema"><svg class="ico"><use href="#i-moon"/></svg></button>
+          <button class="mbtn settings-mbtn ripple" type="button" data-go="settings" aria-label="Pengaturan"><svg class="ico"><use href="#i-settings"/></svg></button>
+          <button class="mbtn mbtn-app install-btn ripple" type="button" aria-label="Pasang Aplikasi"><svg class="ico"><use href="#i-download"/></svg><span>App</span></button>
+        </div>
+      </header>
+
+      <!-- Live ticker -->
+      <div class="ticker reveal" aria-label="Live ticker harga pasar">
+        <div class="ticker-track" id="tickerTrack"></div>
+      </div>
+
+      <!-- In-App Les Reminder Banner -->
+      <div class="les-alert" id="lesAlertBar" role="status" aria-live="polite" hidden>
+        <span class="la-ico" aria-hidden="true"><svg class="ico"><use href="#i-bell"/></svg></span>
+        <div class="la-body">
+          <div class="la-top"><strong id="lesAlertTitle">Pengingat Jadwal Les</strong></div>
+          <p id="lesAlertMsg">—</p>
+        </div>
+        <div class="la-actions">
+          <button class="btn btn-primary btn-sm ripple" id="lesAlertGo" type="button">Lihat Jadwal</button>
+          <button class="btn btn-ghost btn-sm ripple" id="lesAlertClose" type="button" aria-label="Tutup pengingat">Mengerti</button>
+        </div>
+      </div>
+
+      <main class="views" id="views">
+
+        <!-- ===================== DASHBOARD ===================== -->
+        <section class="view" id="view-dashboard" aria-label="Dashboard">
+
+          <!-- Hero wallet (HP) -->
+          <article class="hero-wallet mobile-only reveal">
+            <span class="hw-orb" aria-hidden="true"></span>
+            <span class="hw-shine" aria-hidden="true"></span>
+            <div class="hw-top">
+              <span class="hw-label"><svg class="ico"><use href="#i-wallet"/></svg>Total Kekayaan</span>
+              <span class="hw-chip" data-bind="ratioText">0% Tersimpan</span>
+            </div>
+            <div class="hw-total" data-bind="total">Rp 0</div>
+            <div class="hw-sub" data-bind="totalSub">Kas Rp 0 + Emas Rp 0</div>
+            <div class="hw-grid">
+              <div><span>Kas Pribadi</span><strong data-bind="kas">Rp 0</strong></div>
+              <div><span>Pengeluaran</span><strong data-bind="expense">Rp 0</strong></div>
+              <div><span>Tabungan Emas</span><strong data-bind="gold">Rp 0</strong></div>
+            </div>
+          </article>
+
+          <!-- Quick actions (HP) -->
+          <div class="quick-actions mobile-only reveal">
+            <button class="qa ripple" data-go="finance" data-scroll="financeForm"><span class="qa-ico qa-green"><svg class="ico"><use href="#i-plus"/></svg></span><span>Catat Kas</span></button>
+            <button class="qa ripple" data-go="finance" data-scroll="goldPanel"><span class="qa-ico qa-gold"><svg class="ico"><use href="#i-gold"/></svg></span><span>Emas 24K</span></button>
+            <button class="qa ripple" data-go="schedule" data-day="today"><span class="qa-ico qa-indigo"><svg class="ico"><use href="#i-calendar"/></svg></span><span>Jadwal</span></button>
+            <button class="qa ripple" data-go="market"><span class="qa-ico qa-blue"><svg class="ico"><use href="#i-chart"/></svg></span><span>Market</span></button>
+          </div>
+
+          <!-- Stat cards (Desktop) -->
+          <div class="stat-grid desktop-only">
+            <article class="card stat stat-hero reveal">
+              <span class="hw-orb" aria-hidden="true"></span>
+              <div class="stat-head"><span class="stat-ico"><svg class="ico"><use href="#i-sparkle"/></svg></span><span>Total Kekayaan Bersih</span></div>
+              <div class="stat-value" data-bind="total">Rp 0</div>
+              <div class="stat-sub" data-bind="totalSub">Kas Rp 0 + Emas Rp 0</div>
+            </article>
+            <article class="card stat reveal">
+              <div class="stat-head"><span class="stat-ico ico-blue"><svg class="ico"><use href="#i-wallet"/></svg></span><span data-bind="kasTitle">Kas Pribadi Zaki</span></div>
+              <div class="stat-value" data-bind="kas">Rp 0</div>
+              <div class="stat-sub" data-bind="kasMeta">0 pemasukan · 0 pengeluaran</div>
+            </article>
+            <article class="card stat reveal">
+              <div class="stat-head">
+                <span class="stat-ico ico-gold"><svg class="ico"><use href="#i-gold"/></svg></span>
+                <span data-bind="goldTitle">Tabungan Emas Zaki</span>
+                <button class="gold-pill-btn ripple" type="button" data-go="finance" data-scroll="goldPanel" aria-label="Tambah atau atur tabungan emas"><svg class="ico"><use href="#i-plus"/></svg><span>Atur</span></button>
+              </div>
+              <div class="stat-value" data-bind="gold">Rp 0</div>
+              <div class="stat-sub" data-bind="goldMeta">0,0000 gr · Antam 24K</div>
+            </article>
+          </div>
+
+          <div class="dash-grid">
+            <article class="card reveal" id="flowPanel">
+              <header class="card-head">
+                <div><h3>Pemasukan vs Pengeluaran</h3><p>Grafik real-time arus kas &amp; aset emas</p></div>
+                <span class="badge badge-red" id="ratioBadge" data-bind="ratioText">0% Tersimpan</span>
+              </header>
+              <div class="flow-figures">
+                <div class="ff"><span class="ff-dot dot-green"></span><span class="ff-label">Pemasukan</span><strong data-bind="income">Rp 0</strong></div>
+                <div class="ff"><span class="ff-dot dot-red"></span><span class="ff-label">Pengeluaran</span><strong data-bind="expense">Rp 0</strong></div>
+                <div class="ff"><span class="ff-dot dot-gold"></span><span class="ff-label">Aset Emas</span><strong data-bind="gold">Rp 0</strong></div>
+                <div class="ff"><span class="ff-dot dot-blue"></span><span class="ff-label">Rasio Tersimpan</span><strong data-bind="ratioPct">0%</strong></div>
+              </div>
+              <div class="bar-chart" id="flowChart" role="img" aria-label="Grafik batang pemasukan, pengeluaran, kas bersih dan emas"></div>
+            </article>
+
+            <article class="card reveal" id="todayPanel">
+              <header class="card-head">
+                <div><h3>Jadwal Hari Ini</h3><p data-bind="todayLabel">—</p></div>
+                <button class="btn btn-ghost btn-sm ripple" data-go="schedule" data-day="week"><svg class="ico"><use href="#i-grid"/></svg>Semua Hari</button>
+              </header>
+              <ul class="sched-list" id="todayList"></ul>
+            </article>
+          </div>
+
+          <article class="card reveal" id="marketPanel">
+            <header class="card-head">
+              <div><h3>Pantauan Pasar Utama</h3><p class="live-label" data-bind="lastUpdate">Memuat harga…</p></div>
+              <div class="head-actions">
+                <button class="btn btn-ghost btn-sm refresh-btn ripple" type="button"><svg class="ico"><use href="#i-refresh"/></svg><span>Refresh</span></button>
+                <button class="btn btn-primary btn-sm ripple" data-go="market"><span>Market Watch</span><svg class="ico"><use href="#i-arrow-right"/></svg></button>
+              </div>
+            </header>
+            <div class="mini-assets" id="dashAssets"></div>
+          </article>
+        </section>
+
+        <!-- ===================== FINANCE ===================== -->
+        <section class="view" id="view-finance" aria-label="Keuangan dan Tabungan Emas">
+          <div class="summary-grid">
+            <article class="card sum sum-hero reveal">
+              <span class="sum-label">Total Kekayaan Bersih</span>
+              <strong data-bind="total">Rp 0</strong>
+              <small data-bind="totalSub">Kas Rp 0 + Emas Rp 0</small>
+            </article>
+            <article class="card sum reveal">
+              <span class="sum-label"><i class="ff-dot dot-blue"></i>Kas Pribadi</span>
+              <strong data-bind="kas">Rp 0</strong>
+              <small data-bind="kasMeta">0 pemasukan · 0 pengeluaran</small>
+            </article>
+            <article class="card sum reveal">
+              <span class="sum-label"><i class="ff-dot dot-red"></i>Pengeluaran</span>
+              <strong data-bind="expense">Rp 0</strong>
+              <small data-bind="ratioText">0% Tersimpan</small>
+            </article>
+            <article class="card sum sum-gold reveal">
+              <div class="sum-gold-top">
+                <span class="sum-label"><i class="ff-dot dot-gold"></i>Tabungan Emas</span>
+                <button class="gold-pill-btn ripple" type="button" id="sumEditGold" aria-label="Edit tabungan emas"><svg class="ico"><use href="#i-pen"/></svg><span>Edit</span></button>
+              </div>
+              <strong data-bind="gold">Rp 0</strong>
+              <small data-bind="goldGram">≈ 0,0000 gram</small>
+            </article>
+          </div>
+
+          <div class="fin-grid">
+            <article class="card reveal" id="financeForm">
+              <header class="card-head">
+                <div><h3>Catat Arus Kas</h3><p data-bind="txSub">Pemasukan atau pengeluaran Zaki</p></div>
+                <span class="head-ico"><svg class="ico"><use href="#i-pen"/></svg></span>
+              </header>
+              <form id="txForm" class="form" autocomplete="off" novalidate>
+                <div class="segmented" id="txType" data-value="in" role="radiogroup" aria-label="Jenis transaksi">
+                  <span class="seg-pill" aria-hidden="true"></span>
+                  <button type="button" role="radio" aria-checked="true" data-value="in"><svg class="ico"><use href="#i-in"/></svg>Pemasukan</button>
+                  <button type="button" role="radio" aria-checked="false" data-value="out"><svg class="ico"><use href="#i-out"/></svg>Pengeluaran</button>
+                </div>
+
+                <label class="field">
+                  <span class="field-label">Nominal</span>
+                  <span class="input-wrap has-prefix"><em>Rp</em><input id="txAmount" class="input" inputmode="numeric" placeholder="0" aria-label="Nominal"></span>
+                </label>
+                <div class="chips" id="amountChips">
+                  <button type="button" class="chip ripple" data-amt="10000">+10rb</button>
+                  <button type="button" class="chip ripple" data-amt="25000">+25rb</button>
+                  <button type="button" class="chip ripple" data-amt="50000">+50rb</button>
+                  <button type="button" class="chip ripple" data-amt="100000">+100rb</button>
+                  <button type="button" class="chip ripple" data-amt="0">Hapus</button>
+                </div>
+
+                <label class="field">
+                  <span class="field-label">Keterangan</span>
+                  <input id="txDesc" class="input" maxlength="60" placeholder="Contoh: Uang saku mingguan">
+                </label>
+
+                <div class="field-row">
+                  <label class="field">
+                    <span class="field-label">Kategori</span>
+                    <span class="select-wrap"><select id="txCat" class="input"></select></span>
+                  </label>
+                  <label class="field">
+                    <span class="field-label">Tanggal</span>
+                    <input id="txDate" class="input" type="date">
+                  </label>
+                </div>
+
+                <button class="btn btn-primary btn-block btn-lg ripple" type="submit" id="txSubmit"><svg class="ico"><use href="#i-check"/></svg><span>Simpan Pemasukan</span></button>
+              </form>
+            </article>
+
+            <article class="card reveal" id="txHistory">
+              <header class="card-head">
+                <div><h3>Riwayat Arus Kas</h3><p data-bind="txCount">2 transaksi</p></div>
+                <div class="pills sm" id="txFilter" role="tablist">
+                  <button class="active" data-f="all">Semua</button>
+                  <button data-f="in">Masuk</button>
+                  <button data-f="out">Keluar</button>
+                </div>
+              </header>
+              <ul class="tx-list" id="txList"></ul>
+              <footer class="card-foot">
+                <button class="btn btn-ghost btn-sm ripple" id="resetProfile" type="button"><svg class="ico"><use href="#i-reset"/></svg>Reset ke Profil Awal</button>
+              </footer>
+            </article>
+          </div>
+
+          <article class="card reveal" id="goldPanel">
+            <header class="card-head">
+              <div>
+                <h3 data-bind="goldTitle">Tabungan Emas Zaki</h3>
+                <p data-bind="calcNote">Kurs Antam 24K: Rp 2.505.000/gr</p>
+              </div>
+              <div class="head-actions">
+                <button type="button" class="btn btn-ghost btn-sm ripple" data-go="market" data-asset="ANTAM"><svg class="ico"><use href="#i-chart"/></svg><span>Grafik Antam</span></button>
+                <span class="head-ico gold"><svg class="ico"><use href="#i-gold"/></svg></span>
+              </div>
+            </header>
+            <div class="gold-section-grid">
+              <div class="gm-summary gold-inline-sum">
+                <div class="gm-bal">
+                  <div class="gm-bal-top">
+                    <span>Saldo Emas Saat Ini</span>
+                    <button class="gold-pill-btn ripple" type="button" id="goldEditBtn" aria-label="Edit saldo emas"><svg class="ico"><use href="#i-pen"/></svg><span>Edit</span></button>
+                  </div>
+                  <strong data-bind="gold">Rp 0</strong>
+                  <small data-bind="goldGram">≈ 0,0000 gram</small>
+                </div>
+                <div class="gm-prog">
+                  <div class="gm-prog-head"><span data-bind="goalLabel">Menuju 1 gram</span><b data-bind="goalPct">0%</b></div>
+                  <div class="gm-bar"><span id="goalBar"></span></div>
+                </div>
+                <p class="gm-note">Tersimpan otomatis di akun <b data-bind="userName">Zaki</b> &amp; langsung menambah Total Kekayaan Bersih.</p>
+              </div>
+              <form id="goldForm" class="form" autocomplete="off" novalidate>
+                <div class="pills gm-mode" id="goldMode" role="tablist" aria-label="Mode ubah tabungan emas">
+                  <button type="button" class="active" data-gmode="add">+ Tambah</button>
+                  <button type="button" data-gmode="sub">− Kurangi</button>
+                  <button type="button" data-gmode="set">Edit Saldo</button>
+                </div>
+                <label class="field">
+                  <span class="field-label" id="goldFieldLabel">Nominal Tambahan (Rp)</span>
+                  <span class="input-wrap has-prefix"><em>Rp</em><input id="goldInput" class="input" inputmode="numeric" placeholder="0" aria-label="Nominal tabungan emas"></span>
+                </label>
+                <div class="chips" id="goldChips">
+                  <button type="button" class="chip ripple" data-gamt="50000">+50rb</button>
+                  <button type="button" class="chip ripple" data-gamt="100000">+100rb</button>
+                  <button type="button" class="chip ripple" data-gamt="250000">+250rb</button>
+                  <button type="button" class="chip ripple" data-gamt="500000">+500rb</button>
+                  <button type="button" class="chip ripple" data-gamt="0">Hapus</button>
+                </div>
+                <p class="gm-preview" id="goldPreview">Masukkan nominal untuk melihat estimasi gram emas.</p>
+                <button class="btn btn-primary btn-block btn-lg ripple" type="submit" id="goldSubmit"><svg class="ico"><use href="#i-check"/></svg><span>Tambah ke Tabungan Emas</span></button>
+              </form>
+            </div>
+          </article>
+
+          <article class="card reveal" id="finMarketPanel">
+            <header class="card-head">
+              <div><h3>Pantauan Pasar Utama</h3><p class="live-label" data-bind="lastUpdate">Memuat harga…</p></div>
+              <div class="head-actions">
+                <button class="btn btn-ghost btn-sm refresh-btn ripple" type="button"><svg class="ico"><use href="#i-refresh"/></svg><span>Refresh</span></button>
+                <button class="btn btn-primary btn-sm ripple" data-go="market"><span>Market Watch</span><svg class="ico"><use href="#i-arrow-right"/></svg></button>
+              </div>
+            </header>
+            <div class="mini-assets" id="finAssets"></div>
+          </article>
+        </section>
+
+        <!-- ===================== SCHEDULE ===================== -->
+        <section class="view" id="view-schedule" aria-label="Jadwal Harian Zaki">
+          <div class="card day-tabs-card reveal">
+            <div class="day-tabs" id="dayTabs" role="tablist"></div>
+          </div>
+
+          <article class="card les-remind-card reveal" id="lesRemindCard" aria-label="Pengingat Jadwal Les">
+            <div class="lr-top">
+              <div class="lr-info">
+                <span class="lr-ico" aria-hidden="true"><svg class="ico"><use href="#i-bell"/></svg></span>
+                <div class="lr-text">
+                  <div class="lr-head">
+                    <strong>Pengingat Jadwal Les</strong>
+                  </div>
+                  <small id="lesNextText">Khusus semua jadwal Les · Memuat jadwal terdekat…</small>
+                </div>
+              </div>
+              <div class="lr-controls">
+                <span class="select-wrap compact"><select id="lesLeadSelect" class="input" aria-label="Waktu pengingat sebelum les">
+                  <option value="15">15 mnt sblm</option>
+                  <option value="30">30 mnt sblm</option>
+                  <option value="60">60 mnt sblm</option>
+                </select></span>
+                <button class="btn btn-ghost btn-sm ripple" id="lesSoundBtn" type="button" aria-pressed="true" title="Aktifkan / matikan suara notifikasi"><svg class="ico"><use href="#i-volume"/></svg><span>Suara</span></button>
+                <button class="btn btn-primary btn-sm ripple" id="lesPermBtn" type="button"><svg class="ico"><use href="#i-bell"/></svg><span>Aktifkan Notif</span></button>
+                <button class="btn btn-ghost btn-sm ripple" id="lesTestBtn" type="button"><svg class="ico"><use href="#i-sparkle"/></svg><span>Tes Notif</span></button>
+                <button class="switch" id="lesRemindToggle" type="button" role="switch" aria-checked="true" aria-label="Aktifkan pengingat jadwal les"><span></span></button>
+              </div>
+            </div>
+            <div class="lr-chips" id="lesAllChips" aria-label="Daftar semua jadwal Les aktif"></div>
+          </article>
+
+          <div class="sched-grid">
+            <div class="sched-main">
+              <article class="card reveal" id="dayPanel">
+                <header class="card-head">
+                  <div><h3 id="dayTitle">Senin</h3><p id="daySub">4 kegiatan</p></div>
+                  <span class="badge badge-blue" id="dayTodayBadge" hidden>Hari ini</span>
+                </header>
+                <ul class="sched-list editable" id="dayList"></ul>
+              </article>
+              <div class="week-grid" id="weekPanel" hidden></div>
+            </div>
+
+            <article class="card reveal" id="schedForm">
+              <header class="card-head">
+                <div><h3>Tambah Jadwal</h3><p>Tersimpan permanen di perangkat</p></div>
+                <span class="head-ico"><svg class="ico"><use href="#i-plus"/></svg></span>
+              </header>
+              <form id="addSchedForm" class="form" autocomplete="off">
+                <label class="field">
+                  <span class="field-label">Hari</span>
+                  <span class="select-wrap"><select id="sDay" class="input"></select></span>
+                </label>
+                <label class="field">
+                  <span class="field-label">Nama Kegiatan</span>
+                  <input id="sTitle" class="input" maxlength="40" placeholder="Contoh: Bahasa Inggris" required>
+                </label>
+                <label class="field">
+                  <span class="field-label">Jenis</span>
+                  <span class="select-wrap"><select id="sType" class="input">
+                    <option value="subject">Pelajaran</option>
+                    <option value="les">Les</option>
+                    <option value="ppa">PPA</option>
+                    <option value="vibe">Rutin Harian</option>
+                    <option value="custom">Kegiatan Lain</option>
+                  </select></span>
+                </label>
+                <div class="field-row">
+                  <label class="field"><span class="field-label">Mulai <i>(opsional)</i></span><input id="sStart" class="input" type="time"></label>
+                  <label class="field"><span class="field-label">Selesai <i>(opsional)</i></span><input id="sEnd" class="input" type="time"></label>
+                </div>
+                <button class="btn btn-primary btn-block btn-lg ripple" type="submit"><svg class="ico"><use href="#i-plus"/></svg>Tambah ke Jadwal</button>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <!-- ===================== MARKET ===================== -->
+        <section class="view" id="view-market" aria-label="Market Watch">
+          <div class="card market-bar reveal">
+            <div class="mb-status">
+              <span class="mb-pulse" data-live-chip><span class="live-dot"></span></span>
+              <div><strong data-bind="liveText">Live ON</strong><small data-bind="lastUpdate">Memuat harga…</small></div>
+            </div>
+            <div class="mb-countdown" title="Auto-refresh berikutnya">
+              <svg viewBox="0 0 40 40" class="cd-ring"><circle cx="20" cy="20" r="16" class="cd-bg"/><circle cx="20" cy="20" r="16" class="cd-fg" id="cdRing"/></svg>
+              <span class="cd-num" data-bind="countdownNum">60</span>
+            </div>
+            <div class="mb-controls">
+              <span class="select-wrap compact"><select id="liveInterval" class="input" aria-label="Interval auto-refresh">
+                <option value="30">30 dtk</option>
+                <option value="60">1 menit</option>
+                <option value="120">2 menit</option>
+                <option value="300">5 menit</option>
+              </select></span>
+              <button class="btn btn-ghost btn-sm ripple" id="livePause" type="button"><svg class="ico"><use href="#i-pause"/></svg><span>Jeda</span></button>
+              <button class="btn btn-primary btn-sm refresh-btn ripple" type="button"><svg class="ico"><use href="#i-refresh"/></svg><span>Refresh Market</span></button>
+            </div>
+          </div>
+
+          <div class="market-grid">
+            <article class="card chart-card reveal">
+              <header class="chart-head">
+                <div class="ch-asset">
+                  <span class="asset-logo lg" id="chLogo"></span>
+                  <div><h3 id="chName">Emas Antam 24K</h3><p id="chSym">ANTAM 1g · Emas</p></div>
+                </div>
+                <div class="ch-price">
+                  <strong id="chPrice">—</strong>
+                  <span class="chg" id="chChange">0,00%</span>
+                </div>
+              </header>
+              <div class="chart-toolbar">
+                <div class="pills" id="rangePills" role="tablist">
+                  <button class="active" data-range="1D">1 Hari</button>
+                  <button data-range="1W">1 Minggu</button>
+                  <button data-range="1M">1 Bulan</button>
+                </div>
+                <span class="src-chip" id="chSource">Live API</span>
+              </div>
+              <div class="chart-wrap" id="mainChart"></div>
+              <div class="chart-stats">
+                <div><span>Pembukaan</span><strong id="stOpen">—</strong></div>
+                <div><span>Tertinggi</span><strong id="stHigh">—</strong></div>
+                <div><span>Terendah</span><strong id="stLow">—</strong></div>
+                <div><span>Perubahan</span><strong id="stDiff">—</strong></div>
+              </div>
+            </article>
+
+            <article class="card watch-card reveal">
+              <header class="card-head">
+                <div><h3>Watchlist</h3><p>12 aset · ketuk untuk grafik</p></div>
+                <span class="head-ico"><svg class="ico"><use href="#i-layers"/></svg></span>
+              </header>
+              <div class="watchlist" id="watchlist"></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ===================== NEWS ===================== -->
+        <section class="view" id="view-news" aria-label="Berita Pasar">
+          <div class="card news-toolbar reveal">
+            <div class="pills" id="newsFilters" role="tablist">
+              <button class="active" data-cat="all">Semua</button>
+              <button data-cat="Emas">Emas</button>
+              <button data-cat="Saham">Saham</button>
+              <button data-cat="Kripto">Kripto</button>
+              <button data-cat="Makro">Makro</button>
+            </div>
+            <button class="btn btn-primary btn-sm ripple read-all-btn" type="button"><svg class="ico"><use href="#i-book-open"/></svg><span>Read All News</span></button>
+          </div>
+          <div class="news-featured reveal" id="newsFeatured"></div>
+          <div class="news-grid" id="newsGrid"></div>
+        </section>
+
+        <!-- ===================== SETTINGS ===================== -->
+        <section class="view" id="view-settings" aria-label="Pengaturan">
+          <div class="settings-grid">
+            <!-- Tampilan & Liquid Glass -->
+            <article class="card reveal">
+              <header class="card-head">
+                <div><h3>Tampilan &amp; Liquid Glass</h3><p>Sesuaikan tema, kejernihan kaca &amp; animasi</p></div>
+                <span class="head-ico"><svg class="ico"><use href="#i-sliders"/></svg></span>
+              </header>
+              <div class="set-list">
+                <div class="set-row">
+                  <div class="set-info"><strong>Mode Tema</strong><small data-bind="themeDesc">Putih Biru Muda (Terang) atau Deep Ocean Blue (Gelap)</small></div>
+                  <div class="pills sm" id="setThemePills" role="tablist">
+                    <button type="button" data-set-theme="light">Terang</button>
+                    <button type="button" data-set-theme="dark">Gelap</button>
+                  </div>
+                </div>
+                <div class="set-row">
+                  <div class="set-info"><strong>Intensitas Liquid Glass</strong><small>Atur tingkat transparansi &amp; kilau refraksi kaca</small></div>
+                  <div class="pills sm" id="setGlassPills" role="tablist">
+                    <button type="button" data-set-glass="soft">Halus</button>
+                    <button type="button" data-set-glass="liquid">Liquid</button>
+                    <button type="button" data-set-glass="ultra">Ultra</button>
+                  </div>
+                </div>
+                <div class="set-row">
+                  <div class="set-info"><strong>Efek Gerak Halus</strong><small>Matikan untuk mode hemat baterai di HP</small></div>
+                  <button class="switch" id="setMotionToggle" type="button" role="switch" aria-checked="true" aria-label="Efek gerak halus"><span></span></button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Profil & Pengguna -->
+            <article class="card reveal">
+              <header class="card-head">
+                <div><h3>Profil &amp; Pengguna</h3><p>Ganti akun Zaki / Niza &amp; target tabungan emas</p></div>
+                <div class="avatar sm" aria-hidden="true"><span data-bind="avatarInitial">Z</span></div>
+              </header>
+              <form id="setProfileForm" class="form" autocomplete="off">
+                <div class="field">
+                  <span class="field-label">Pilih Pengguna</span>
+                  <div class="user-cards" id="setUserCards" role="radiogroup" aria-label="Pilih pengguna">
+                    <button type="button" class="user-card ripple" data-pick-user="zaki" role="radio" aria-checked="true">
+                      <span class="uc-av uc-zaki">Z</span>
+                      <span class="uc-info"><strong>Zaki</strong></span>
+                      <svg class="ico uc-chk"><use href="#i-check"/></svg>
+                    </button>
+                    <button type="button" class="user-card ripple" data-pick-user="niza" role="radio" aria-checked="false">
+                      <span class="uc-av uc-niza">N</span>
+                      <span class="uc-info"><strong>Niza</strong></span>
+                      <svg class="ico uc-chk"><use href="#i-check"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <label class="field">
+                  <span class="field-label">Target Tabungan Emas</span>
+                  <span class="select-wrap"><select id="setGoldGoal" class="input">
+                    <option value="0">Otomatis (bertahap per 1 gram)</option>
+                    <option value="1">1 gram</option>
+                    <option value="2">2 gram</option>
+                    <option value="5">5 gram</option>
+                    <option value="10">10 gram</option>
+                  </select></span>
+                </label>
+                <button class="btn btn-primary btn-block ripple" type="submit"><svg class="ico"><use href="#i-check"/></svg><span>Simpan Target</span></button>
+              </form>
+            </article>
+
+            <!-- Market Watch -->
+            <article class="card reveal">
+              <header class="card-head">
+                <div><h3>Pemantauan Pasar</h3><p>Kontrol pembaruan harga live &amp; cache pasar</p></div>
+                <span class="head-ico"><svg class="ico"><use href="#i-chart"/></svg></span>
+              </header>
+              <div class="set-list">
+                <div class="set-row">
+                  <div class="set-info"><strong>Auto-Refresh Live Market</strong><small>Perbarui harga 12 aset secara otomatis</small></div>
+                  <button class="switch" id="setLiveToggle" type="button" role="switch" aria-checked="true" aria-label="Auto-refresh pasar"><span></span></button>
+                </div>
+                <div class="set-row">
+                  <div class="set-info"><strong>Interval Auto-Refresh</strong><small>Frekuensi pembaruan data pasar</small></div>
+                  <span class="select-wrap compact"><select id="setInterval" class="input" aria-label="Interval auto-refresh">
+                    <option value="30">30 detik</option>
+                    <option value="60">1 menit</option>
+                    <option value="120">2 menit</option>
+                    <option value="300">5 menit</option>
+                  </select></span>
+                </div>
+                <div class="set-row">
+                  <div class="set-info"><strong>Segarkan Cache Pasar</strong><small data-bind="lastUpdate">Memuat harga…</small></div>
+                  <button class="btn btn-ghost btn-sm ripple" id="setClearMarket" type="button"><svg class="ico"><use href="#i-refresh"/></svg>Muat Ulang</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Data, Backup & Aplikasi HP -->
+            <article class="card reveal">
+              <header class="card-head">
+                <div><h3>Data, Backup &amp; Aplikasi</h3><p>Cadangkan data lokal atau pasang ZashFlow di HP</p></div>
+                <span class="head-ico"><svg class="ico"><use href="#i-shield"/></svg></span>
+              </header>
+              <div class="set-actions">
+                <button class="btn btn-glass ripple" id="setExportBtn" type="button"><svg class="ico"><use href="#i-download"/></svg><span>Ekspor Backup JSON</span></button>
+                <button class="btn btn-glass ripple" id="setImportBtn" type="button"><svg class="ico"><use href="#i-upload"/></svg><span>Impor Backup JSON</span></button>
+                <input id="setImportFile" type="file" accept="application/json,.json" hidden>
+                <button class="btn btn-blue-fixed ripple install-btn" type="button" data-install-for="zaki"><svg class="ico"><use href="#i-phone"/></svg><span>App Zaki (Biru)</span></button>
+                <button class="btn btn-pink ripple install-btn" type="button" data-install-for="niza"><svg class="ico"><use href="#i-phone"/></svg><span>App Niza (Pink)</span></button>
+              </div>
+              <div class="set-danger">
+                <button class="btn btn-ghost ripple" id="setResetFinance" type="button"><svg class="ico"><use href="#i-reset"/></svg><span>Reset Keuangan Awal</span></button>
+                <button class="btn btn-ghost ripple" id="setResetSchedule" type="button"><svg class="ico"><use href="#i-calendar"/></svg><span>Reset Jadwal Awal</span></button>
+              </div>
+              <p class="set-meta">ZashFlow v1.2 · Seluruh data pribadi tersimpan aman secara lokal di perangkat Anda.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-foot">
+        <img src="icon.svg?v=6" data-brand-logo alt="" width="18" height="18">
+        <span>ZashFlow · Data pasar dari Gold-API, Binance, ER-API &amp; TradingView. Bukan saran investasi.</span>
+      </footer>
+    </div>
+
+    <!-- ===================== BOTTOM DOCK (HP) ===================== -->
+    <nav class="dock" id="dock" aria-label="Navigasi bawah">
+      <span class="dock-pill" aria-hidden="true"></span>
+      <button class="dock-item" data-view="dashboard"><svg class="ico"><use href="#i-home"/></svg><span>Home</span></button>
+      <button class="dock-item" data-view="finance"><svg class="ico"><use href="#i-wallet"/></svg><span>Kas</span></button>
+      <button class="dock-item" data-view="schedule"><svg class="ico"><use href="#i-calendar"/></svg><span>Jadwal</span></button>
+      <button class="dock-item" data-view="market"><svg class="ico"><use href="#i-chart"/></svg><span>Market</span></button>
+      <button class="dock-item" data-view="news"><svg class="ico"><use href="#i-news"/></svg><span>Berita</span></button>
+    </nav>
+  </div>
+
+  <!-- ===================== MODALS ===================== -->
+  <div class="modal" id="searchModal" hidden role="dialog" aria-modal="true" aria-label="Pencarian global">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel search-panel">
+      <div class="search-bar">
+        <svg class="ico"><use href="#i-search"/></svg>
+        <input id="searchInput" type="search" placeholder="Cari aset, jadwal, atau berita" autocomplete="off" spellcheck="false">
+        <button class="kbd-close" data-close type="button">Esc</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <div class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> pilih</span><span><kbd>Enter</kbd> buka</span></div>
+    </div>
+  </div>
+
+  <div class="modal" id="newsModal" hidden role="dialog" aria-modal="true" aria-label="Berita">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel news-panel">
+      <button class="modal-x" data-close type="button" aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button>
+      <div id="newsModalBody"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="allNewsModal" hidden role="dialog" aria-modal="true" aria-label="Semua berita pasar">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel allnews-panel">
+      <header class="allnews-head">
+        <div><span class="eyebrow">Edisi Lengkap</span><h3>Berita Pasar ZashFlow</h3><p data-bind="editionDate">—</p></div>
+        <button class="modal-x static" data-close type="button" aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button>
+      </header>
+      <div class="allnews-toc" id="allNewsToc"></div>
+      <div class="allnews-body" id="allNewsBody"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="installModal" hidden role="dialog" aria-modal="true" aria-label="Pasang aplikasi">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel install-panel">
+      <button class="modal-x" data-close type="button" aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button>
+      <div class="install-hero">
+        <img src="icon.svg?v=6" data-brand-logo alt="ZashFlow" width="76" height="76">
+        <h3>Pasang ZashFlow</h3>
+        <p>Buka seperti aplikasi asli: layar penuh, cepat, dan tetap bisa dibuka saat offline.</p>
+      </div>
+      <div id="installBody"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="editSchedModal" hidden role="dialog" aria-modal="true" aria-label="Edit jadwal">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel edit-sched-panel">
+      <button class="modal-x" data-close type="button" aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button>
+      <header class="es-head">
+        <span class="head-ico"><svg class="ico"><use href="#i-pen"/></svg></span>
+        <div><h3>Edit Jadwal</h3><p>Ubah nama, hari, jenis, atau jam tanpa menghapus</p></div>
+      </header>
+      <form id="editSchedForm" class="form" autocomplete="off">
+        <label class="field">
+          <span class="field-label">Hari</span>
+          <span class="select-wrap"><select id="esDay" class="input"></select></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Nama Kegiatan</span>
+          <input id="esTitle" class="input" maxlength="60" placeholder="Contoh: Les Ngaji" required>
+        </label>
+        <label class="field">
+          <span class="field-label">Jenis</span>
+          <span class="select-wrap"><select id="esType" class="input">
+            <option value="subject">Pelajaran</option>
+            <option value="les">Les</option>
+            <option value="ppa">PPA</option>
+            <option value="vibe">Rutin Harian</option>
+            <option value="custom">Kegiatan Lain</option>
+          </select></span>
+        </label>
+        <div class="field-row">
+          <label class="field"><span class="field-label">Mulai <i>(opsional)</i></span><input id="esStart" class="input" type="time"></label>
+          <label class="field"><span class="field-label">Selesai <i>(opsional)</i></span><input id="esEnd" class="input" type="time"></label>
+        </div>
+        <div class="es-clear-row" id="esClearWrap" hidden>
+          <button class="es-clear-btn" id="esClearTime" type="button"><svg class="ico"><use href="#i-x"/></svg><span>Hapus jam</span></button>
+        </div>
+        <div class="es-actions">
+          <button class="btn btn-ghost ripple" data-close type="button">Batal</button>
+          <button class="btn btn-primary ripple" type="submit"><svg class="ico"><use href="#i-check"/></svg><span>Simpan Perubahan</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="editTxModal" hidden role="dialog" aria-modal="true" aria-label="Edit catatan keuangan">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel edit-sched-panel">
+      <button class="modal-x" data-close type="button" aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button>
+      <header class="es-head">
+        <span class="head-ico"><svg class="ico"><use href="#i-wallet"/></svg></span>
+        <div><h3>Edit Catatan Keuangan</h3><p>Ubah jenis, nominal, keterangan, kategori, atau tanggal</p></div>
+      </header>
+      <form id="editTxForm" class="form" autocomplete="off" novalidate>
+        <div class="segmented" id="etType" data-value="in" role="radiogroup" aria-label="Jenis transaksi">
+          <span class="seg-pill" aria-hidden="true"></span>
+          <button type="button" role="radio" aria-checked="true" data-value="in"><svg class="ico"><use href="#i-in"/></svg>Pemasukan</button>
+          <button type="button" role="radio" aria-checked="false" data-value="out"><svg class="ico"><use href="#i-out"/></svg>Pengeluaran</button>
+        </div>
+        <label class="field">
+          <span class="field-label">Nominal</span>
+          <span class="input-wrap has-prefix"><em>Rp</em><input id="etAmount" class="input" inputmode="numeric" placeholder="0" aria-label="Nominal transaksi"></span>
+        </label>
+        <div class="chips" id="etChips">
+          <button type="button" class="chip ripple" data-et-amt="10000">+10rb</button>
+          <button type="button" class="chip ripple" data-et-amt="25000">+25rb</button>
+          <button type="button" class="chip ripple" data-et-amt="50000">+50rb</button>
+          <button type="button" class="chip ripple" data-et-amt="100000">+100rb</button>
+          <button type="button" class="chip ripple" data-et-amt="0">Hapus</button>
+        </div>
+        <label class="field">
+          <span class="field-label">Keterangan</span>
+          <input id="etDesc" class="input" maxlength="80" placeholder="Contoh: Uang saku mingguan">
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Kategori</span>
+            <span class="select-wrap"><select id="etCat" class="input"></select></span>
+          </label>
+          <label class="field">
+            <span class="field-label">Tanggal</span>
+            <input id="etDate" class="input" type="date">
+          </label>
+        </div>
+        <div class="es-actions">
+          <button class="btn btn-ghost ripple" data-close type="button">Batal</button>
+          <button class="btn btn-primary ripple" type="submit"><svg class="ico"><use href="#i-check"/></svg><span>Simpan Perubahan</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="editGoldModal" hidden role="dialog" aria-modal="true" aria-label="Edit tabungan emas">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel edit-sched-panel">
+      <button class="modal-x" data-close type="button" aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button>
+      <header class="es-head">
+        <span class="head-ico gold"><svg class="ico"><use href="#i-gold"/></svg></span>
+        <div><h3>Edit Tabungan Emas</h3><p data-bind="calcNote">Kurs Antam 24K</p></div>
+      </header>
+      <form id="editGoldForm" class="form" autocomplete="off" novalidate>
+        <label class="field">
+          <span class="field-label">Total Saldo Emas (Rupiah)</span>
+          <span class="input-wrap has-prefix"><em>Rp</em><input id="egIdr" class="input" inputmode="numeric" placeholder="0" aria-label="Saldo emas dalam rupiah"></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Atau Ubah Langsung dalam Gram (24K)</span>
+          <span class="input-wrap has-suffix"><input id="egGram" class="input" inputmode="decimal" placeholder="0,0000" aria-label="Saldo emas dalam gram"><em>gr</em></span>
+        </label>
+        <div class="chips" id="egChips">
+          <button type="button" class="chip ripple" data-eg-gr="0">Rp 0</button>
+          <button type="button" class="chip ripple" data-eg-gr="0.5">0,5 gr</button>
+          <button type="button" class="chip ripple" data-eg-gr="1">1 gr</button>
+          <button type="button" class="chip ripple" data-eg-gr="2">2 gr</button>
+          <button type="button" class="chip ripple" data-eg-gr="5">5 gr</button>
+        </div>
+        <label class="field">
+          <span class="field-label">Target Tabungan Emas</span>
+          <span class="select-wrap"><select id="egGoal" class="input">
+            <option value="0">Otomatis (bertahap per 1 gram)</option>
+            <option value="1">1 gram</option>
+            <option value="2">2 gram</option>
+            <option value="5">5 gram</option>
+            <option value="10">10 gram</option>
+          </select></span>
+        </label>
+        <div class="es-actions">
+          <button class="btn btn-ghost ripple" data-close type="button">Batal</button>
+          <button class="btn btn-primary ripple" type="submit"><svg class="ico"><use href="#i-check"/></svg><span>Simpan Emas</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

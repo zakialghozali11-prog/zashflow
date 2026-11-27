@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>ZashFlow</title>
+  <defs>
+    <linearGradient id="bg" x1="0.15" y1="0.05" x2="0.85" y2="0.95">
+      <stop offset="0" stop-color="#2299f5"/>
+      <stop offset="1" stop-color="#0b55cc"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Clean Squircle -->
+  <rect width="512" height="512" rx="124" fill="url(#bg)"/>
+  <rect width="512" height="256" rx="124" fill="url(#glass)"/>
+  <!-- Minimalist Abstract Dual-Flow Mark (non-alphabet) -->
+  <path fill="#ffffff" d="M138 228c0-42 34-76 76-76h156c10 0 18 8 18 18v14c0 34-28 62-62 62H156c-10 0-18-8-18-18z"/>
+  <path fill="#ffffff" fill-opacity="0.58" d="M374 284c0 42-34 76-76 76H142c-10 0-18-8-18-18v-14c0-34 28-62 62-62h170c10 0 18 8 18 18z"/>
+</svg>

@@ -1,0 +1,44 @@
+{
+  "id": "./index.html",
+  "name": "ZashFlow",
+  "short_name": "ZashFlow",
+  "description": "ZashFlow: kelola arus kas pribadi, tabungan emas 24K, jadwal harian, dan pantau harga pasar real-time dalam satu aplikasi Liquid Glass.",
+  "lang": "id",
+  "dir": "ltr",
+  "start_url": "./index.html#dashboard",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "categories": ["finance", "productivity", "education"],
+  "icons": [
+    { "src": "icon-blue-any.png?v=6", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-blue.png?v=6", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg?v=6", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catat Arus Kas",
+      "short_name": "Kas",
+      "description": "Catat pemasukan atau pengeluaran",
+      "url": "./index.html#finance",
+      "icons": [{ "src": "icon-blue-any.png?v=6", "sizes": "512x512", "type": "image/png" }]
+    },
+    {
+      "name": "Jadwal Harian",
+      "short_name": "Jadwal",
+      "description": "Lihat jadwal harian",
+      "url": "./index.html#schedule",
+      "icons": [{ "src": "icon-blue-any.png?v=6", "sizes": "512x512", "type": "image/png" }]
+    },
+    {
+      "name": "Market Watch",
+      "short_name": "Market",
+      "description": "Pantau harga pasar real-time",
+      "url": "./index.html#market",
+      "icons": [{ "src": "icon-blue-any.png?v=6", "sizes": "512x512", "type": "image/png" }]
+    }
+  ]
+}

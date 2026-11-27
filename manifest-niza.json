@@ -1,0 +1,44 @@
+{
+  "id": "./niza.html",
+  "name": "ZashFlow Niza",
+  "short_name": "ZashFlow",
+  "description": "ZashFlow versi Niza (logo pink): kelola arus kas pribadi, tabungan emas 24K, jadwal harian, dan pantau harga pasar real-time.",
+  "lang": "id",
+  "dir": "ltr",
+  "start_url": "./niza.html#dashboard",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#fff5fa",
+  "theme_color": "#ffe3f0",
+  "categories": ["finance", "productivity", "education"],
+  "icons": [
+    { "src": "icon-pink-any.png?v=6", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-pink.png?v=6", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-pink.svg?v=6", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catat Arus Kas",
+      "short_name": "Kas",
+      "description": "Catat pemasukan atau pengeluaran Niza",
+      "url": "./niza.html#finance",
+      "icons": [{ "src": "icon-pink-any.png?v=6", "sizes": "512x512", "type": "image/png" }]
+    },
+    {
+      "name": "Jadwal Harian",
+      "short_name": "Jadwal",
+      "description": "Lihat jadwal harian Niza",
+      "url": "./niza.html#schedule",
+      "icons": [{ "src": "icon-pink-any.png?v=6", "sizes": "512x512", "type": "image/png" }]
+    },
+    {
+      "name": "Market Watch",
+      "short_name": "Market",
+      "description": "Pantau harga pasar real-time",
+      "url": "./niza.html#market",
+      "icons": [{ "src": "icon-pink-any.png?v=6", "sizes": "512x512", "type": "image/png" }]
+    }
+  ]
+}
